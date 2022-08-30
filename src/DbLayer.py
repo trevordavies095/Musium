@@ -12,6 +12,20 @@ class DbLayer:
         except Exception as e:
             print(e)
 
+    
+    def Search(self, artist, album, year):
+        c = self.conn.cursor()
+
+        check_album_sql = '''
+            SELECT musicbrainz_id FROM album a
+            INNER JOIN artist ar ON ar.id = a.artist_id
+            WHERE ar.name = ? AND a.name = ? AND a.year = ?;
+        '''
+        c.execute(check_album_sql, (artist, album, year,))
+        mb_id = c.fetchone()
+
+        return mb_id
+
     def RateAlbum(self, r):
         c = self.conn.cursor()
 
@@ -49,11 +63,11 @@ class DbLayer:
         # If not add to db
         if album_id is None:
             i_album_sql = '''
-                INSERT INTO album(artist_id, name, year, rating)
-                VALUES (?, ?, ?, ?);
+                INSERT INTO album(artist_id, name, year, rating, musicbrainz_id)
+                VALUES (?, ?, ?, ?, ?);
             '''
 
-            c.execute(i_album_sql, (artist_id, r.album, r.year, r.rating,))
+            c.execute(i_album_sql, (artist_id, r.album, r.year, r.rating, r.musicbrainz_release_id))
             self.conn.commit()
             album_id = c.lastrowid
 

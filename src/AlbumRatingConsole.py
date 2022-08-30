@@ -5,12 +5,18 @@ from MusicBrainz import MusicBrainz
 
 def main():
     mb = MusicBrainz()
+    db = DbLayer()
 
     artist = input("Artist > ")
     album = input("Album > ")
     year = input("Year > ")
 
-    r = mb.Search(artist, album, year)
+    r = db.Search(artist, album, year)
+    if r is None:
+        r = mb.Search(artist, album, year)
+    else:
+        print("Found album in DB!")
+        r = mb.Search(artist, album, year, r[0])
     correct = CheckDetails(r)
 
     if correct != "c":
