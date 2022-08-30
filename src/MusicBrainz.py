@@ -13,7 +13,7 @@ class MusicBrainz:
         #ids = [val['id'] for val in r]
 
         if mb_id is None:
-            r = mb.search_releases(artist=artist, release=album, limit=1, format='Digital Media')['release-list'][0]
+            r = mb.search_releases(artist=artist, release=album, limit=1)['release-list'][0]
             if r is None: return None
 
             mb_id = r['id']
@@ -23,7 +23,7 @@ class MusicBrainz:
             
         track_list = self.GetTrackList(mb_id)
         if track_list is None: return None
-        
+
         return ReleaseObj(mb_id, artist, album, year, track_list)
 
     def GetTrackList(self, mb_id):
@@ -34,7 +34,7 @@ class MusicBrainz:
 
         for x in range(len(tl)):
             line = (tl[x])
-            track_list.append((line["number"], line["recording"]["title"]))
+            track_list.append([line["number"], line["recording"]["title"], -1])
         
         return track_list
 
