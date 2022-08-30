@@ -13,13 +13,18 @@ class MusicBrainz:
         #ids = [val['id'] for val in r]
 
         if mb_id is None:
-            r = mb.search_releases(artist=artist, release=album, limit=1)['release-list'][0]
-            if r is None: return None
+            r = mb.search_releases(artist=artist, release=album, limit=5)['release-list']
+            
+            for x in r:
+                try:
+                    mb_id = x['id']
+                    artist = x['artist-credit'][0]['name']
+                    album = x['title']
+                    year = datetime.strptime(x['date'], "%Y-%m-%d").year
+                except:
+                    continue
 
-            mb_id = r['id']
-            artist = r['artist-credit'][0]['name']
-            album = r['title']
-            year = datetime.strptime(r['date'], "%Y-%m-%d").year
+            if r is None: return None
             
         track_list = self.GetTrackList(mb_id)
         if track_list is None: return None

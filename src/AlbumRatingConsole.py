@@ -31,7 +31,7 @@ def RateAlbum(r):
         track[2] = float(input(track[0] + ". " + track[1] + " score: "))
         total += track[2]
 
-    score = floor(((total / len(r.track_list)*10) + .5) * 10)
+    score = floor(((total / len(r.track_list)*10) + .15) * 10)
     r.rating = score
     db = DbLayer()
     db.RateAlbum(r)
