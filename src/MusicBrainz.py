@@ -6,7 +6,7 @@ import musicbrainzngs as mb
 
 class MusicBrainz:
     def __init__(self):
-        mb.set_useragent("AlbumRating-Console", "0.1", "https://github.com/trevordavies095/AlbumRating")
+        mb.set_useragent("Musium", "0.1", "https://github.com/trevordavies095/Musium")
 
     def Search(self, artist, album, year, mb_id=None):
         #r = mb.search_release_groups(" ".join([artist, album, year]))["release-group-list"]

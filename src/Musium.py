@@ -38,7 +38,12 @@ def RateAlbum(r):
         total += track[2]
 
     score = floor(((total / len(r.track_list)*10) + .15) * 10)
+
+    if score >= 100: score = 100
     r.rating = score
+
+    print("-------------------------------------------")
+    print("Score: " + str(score))
     db = DbLayer()
     db.RateAlbum(r)
 

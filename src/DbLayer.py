@@ -8,7 +8,7 @@ class DbLayer:
 
     def __init__(self):
         try:
-            self.conn = sqlite3.connect("AlbumRatings.db")
+            self.conn = sqlite3.connect("Musium.db")
         except Exception as e:
             print(e)
 
