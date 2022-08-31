@@ -25,6 +25,16 @@ class MusicBrainz:
                     continue
 
             if r is None: return None
+
+        else:
+            r = mb.get_release_by_id(id=mb_id, includes=["recordings", "artists"])['release']
+            mb_id = r['id']
+            artist = r['artist-credit'][0]['artist']['name']
+            album = r['title']
+            year = datetime.strptime(r['date'], "%Y-%m-%d").year
+
+            if r is None: return None
+
             
         track_list = self.GetTrackList(mb_id)
         if track_list is None: return None
@@ -33,7 +43,6 @@ class MusicBrainz:
 
     def GetTrackList(self, mb_id):
         track_list = []
-
         r = mb.get_release_by_id(id=mb_id, includes=["recordings"])
         tl = (r["release"]["medium-list"][0]["track-list"])
 

@@ -2,21 +2,28 @@ from colorama import Fore
 from DbLayer import DbLayer
 from math import floor
 from MusicBrainz import MusicBrainz
+import argparse
 
 def main():
+    args = term_args()
     mb = MusicBrainz()
     db = DbLayer()
 
-    artist = input("Artist > ")
-    album = input("Album > ")
-    year = input("Year > ")
+    if args.mb_id:
+        r = mb.Search(artist=None, album=None, year=None, mb_id=args.mb_id)
 
-    r = db.Search(artist, album, year)
-    if r is None:
-        r = mb.Search(artist, album, year)
     else:
-        print("Found album in DB!")
-        r = mb.Search(artist, album, year, r[0])
+        artist = input("Artist > ")
+        album = input("Album > ")
+        year = input("Year > ")
+
+        r = db.Search(artist, album, year)
+    
+        if r is None:
+            r = mb.Search(artist, album, year)
+        else:
+            print("Found album in DB!")
+            r = mb.Search(artist, album, year, r[0])
     correct = CheckDetails(r)
 
     if correct != "c":
@@ -58,6 +65,18 @@ def CheckDetails(r):
     print()
 
     return input('\033[34m' + '[C]' + '\033[39m' + 'orrect? ').lower().strip()
+
+
+def term_args():
+    """
+    Inputs commands from the console, parses
+    them, then returns them to main.
+    :return: The parsed args
+    """
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-mb", "--mb_id", type=str, help="Music Brainz ID of release to be scored")
+    return parser.parse_args()
 
 
     
