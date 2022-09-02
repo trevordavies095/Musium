@@ -1,13 +1,25 @@
+import re
 from colorama import Fore
 from DbLayer import DbLayer
 from math import floor
 from MusicBrainz import MusicBrainz
+from queryparse import parse_query
+from reporting import output_report
 import argparse
 
 def main():
     args = term_args()
     mb = MusicBrainz()
     db = DbLayer()
+
+    if args.artist or args.album or args.year or args.decade:
+        q = parse_query(args)
+        if q is None:
+            print("Incorrect query format")
+            exit(1)
+        results = db.RunQuery(q[1])
+        output_report([q[0], results])
+        exit(0)
 
     if args.mb_id:
         r = mb.Search(artist=None, album=None, year=None, mb_id=args.mb_id)
@@ -76,6 +88,11 @@ def term_args():
 
     parser = argparse.ArgumentParser()
     parser.add_argument("-mb", "--mb_id", type=str, help="Music Brainz ID of release to be scored")
+    parser.add_argument("-ar", "--artist", help="Artist to be used in query")
+    parser.add_argument("-al", "--album", help="Album to be used in query")
+    parser.add_argument("-y", "--year", help="Year to be used in query")
+    parser.add_argument("-d", "--decade", help="Decade to be used in query")
+
     return parser.parse_args()
 
 

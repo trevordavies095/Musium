@@ -1,5 +1,4 @@
 import sqlite3
-
 from matplotlib import artist
 
 
@@ -26,9 +25,13 @@ class DbLayer:
 
         return mb_id
 
+    def RunQuery(self, q):
+        c = self.conn.cursor()
+        c.execute(q)
+        return c.fetchall()
+
     def RateAlbum(self, r):
         c = self.conn.cursor()
-
 
         # Check to see if artist exists
         check_artist_sql = '''
