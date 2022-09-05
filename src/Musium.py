@@ -1,5 +1,3 @@
-import re
-from colorama import Fore
 from DbLayer import DbLayer
 from math import floor
 from MusicBrainz import MusicBrainz
@@ -51,6 +49,7 @@ def main():
 
     
 def RateAlbum(r):
+    #
     total = 0
     for track in r.track_list:
         track[2] = float(input(track[0] + ". " + track[1] + " score: "))
@@ -94,11 +93,6 @@ def term_args():
     parser.add_argument("-d", "--decade", help="Decade to be used in query")
 
     return parser.parse_args()
-
-
-    
-
-
 
 
 if __name__ == "__main__":
