@@ -28,10 +28,14 @@ class MusicBrainz:
 
         else:
             r = mb.get_release_by_id(id=mb_id, includes=["recordings", "artists"])['release']
+
             mb_id = r['id']
             artist = r['artist-credit'][0]['artist']['name']
             album = r['title']
-            year = datetime.strptime(r['date'], "%Y-%m-%d").year
+            try:
+                year = datetime.strptime(r['date'], "%Y-%m-%d").year
+            except:
+                year = r['date']
 
             if r is None: return None
 
