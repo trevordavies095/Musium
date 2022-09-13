@@ -6,7 +6,8 @@ def parse_query(args):
             SELECT ar.name, al.name, al.year, al.rating, al.star_rating, t.name, t.track_score FROM track t
             INNER JOIN album al ON al.id = t.album_id 
             INNER JOIN artist ar ON ar.id = al.artist_id
-            WHERE ar.name = "{}" AND al.name = "{}"
+            WHERE ar.name = "{}" COLLATE NOCASE
+            AND al.name = "{}" COLLATE NOCASE
             ORDER BY t.id ASC;
         '''
         return ["artist_album", s_artist_album_sql.format(args.artist, args.album)]
@@ -16,7 +17,7 @@ def parse_query(args):
         s_artist_sql = '''
             SELECT ar.name, al.name, al.year, al.rating, al.star_rating FROM album al
             INNER JOIN artist ar ON ar.id = al.artist_id
-            WHERE ar.name = "{}"
+            WHERE ar.name = "{}" COLLATE NOCASE
             ORDER BY al.year ASC;
         '''
         return ["artist", s_artist_sql.format(args.artist)]
