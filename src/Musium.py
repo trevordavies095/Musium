@@ -66,7 +66,7 @@ def RateAlbum(r):
 
     print("-------------------------------------------")
     print("Score: " + str(score))
-    print("Stars:" + str(star_rating))
+    print("Stars: " + str(star_rating))
     db = DbLayer()
     db.RateAlbum(r)
 

@@ -11,44 +11,47 @@ class DbLayer:
             c = self.conn.cursor()
 
             c_album_table_sql = '''
-                CREATE TABLE IF NOT EXISTS "album" (
-                "id"	INTEGER NOT NULL,
-                "artist_id"	INTEGER NOT NULL,
-                "name"	TEXT NOT NULL,
-                "year"	INTEGER NOT NULL,
-                "rating"	INTEGER,
-                "musicbrainz_id"	TEXT,
-                PRIMARY KEY("id" AUTOINCREMENT)
-            );
+                CREATE TABLE "album" (
+                    "id"	INTEGER NOT NULL,
+                    "artist_id"	INTEGER NOT NULL,
+                    "name"	TEXT NOT NULL,
+                    "year"	INTEGER NOT NULL,
+                    "rating"	INTEGER,
+                    "musicbrainz_id"	TEXT,
+                    "star_rating"	REAL,
+                    PRIMARY KEY("id" AUTOINCREMENT)
+                );
             '''
             c.execute(c_album_table_sql)
 
             c_artist_table_sql = '''
                 CREATE TABLE IF NOT EXISTS "artist" (
-                "id"	INTEGER NOT NULL,
-                "name"	TEXT NOT NULL UNIQUE,
-                PRIMARY KEY("id" AUTOINCREMENT)
-            );
+                    "id"	INTEGER NOT NULL,
+                    "name"	TEXT NOT NULL UNIQUE,
+                    PRIMARY KEY("id" AUTOINCREMENT)
+                );
             '''
             c.execute(c_artist_table_sql)
 
             c_track_table_sql = '''
                 CREATE TABLE IF NOT EXISTS "track" (
-                "id"	INTEGER NOT NULL,
-                "album_id"	INTEGER NOT NULL,
-                "name"	TEXT NOT NULL,
-                "track_score"	INTEGER,
-                PRIMARY KEY("id" AUTOINCREMENT)
-            );
+                    "id"	INTEGER NOT NULL,
+                    "album_id"	INTEGER NOT NULL,
+                    "name"	TEXT NOT NULL,
+                    "track_score"	INTEGER,
+                    PRIMARY KEY("id" AUTOINCREMENT)
+                );
             '''
             c.execute(c_track_table_sql)
 
             self.conn.commit()
 
+            print("DB created")
+
 
 
         except Exception as e:
-            print(e)
+            pass
 
     
     def Search(self, artist, album, year):
