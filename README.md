@@ -56,18 +56,18 @@ Stars: 4.0
 
 ### Basic album search and rating
 ```console
-python3 Musium.py
+python3 musium.py
 ```
 
 #### You are able to bypass searching by passing in a MusicBrainz Release ID
 ```console
-python3 Musium.py --mb "8d44b76f-a05b-434b-9781-79b60b0d5253"
+python3 musium.py --mb "8d44b76f-a05b-434b-9781-79b60b0d5253"
 ```
 
 ### Basic reporting
 ```console
-python3 Musium.py -ar "Simon & Garfunkel"
-python3 Musium.py -ar "Simon & Garfunkel" -al "Bridge Over Troubled Water"
-python3 Musium.py -y 2022
-python3 Musium.py -d 2010s
+python3 musium.py -ar "Simon & Garfunkel"
+python3 musium.py -ar "Simon & Garfunkel" -al "Bridge Over Troubled Water"
+python3 musium.py -y 2022
+python3 musium.py -d 2010s
 ```
