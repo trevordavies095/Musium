@@ -1,5 +1,4 @@
 import sqlite3
-from matplotlib import artist
 
 
 class DbLayer:

@@ -1,6 +1,4 @@
 from datetime import datetime
-
-from matplotlib import artist
 from ReleaseObj import ReleaseObj
 import musicbrainzngs as mb
 

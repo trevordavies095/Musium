@@ -1,6 +1,3 @@
-from numpy import arange
-
-
 class ReleaseObj(object):
     musicbrainz_release_id = ""
     artist = ""
