@@ -8,6 +8,7 @@ class ReleaseObj(object):
     year = ""
     track_list = []                         # i0 - track number, i1 - track name, i2 - track score
     rating = 0
+    star_rating = 0
 
     def __init__(self, musicbrainz_release_id, artist, album, year, track_list):
         self.musicbrainz_release_id = musicbrainz_release_id

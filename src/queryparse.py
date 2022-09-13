@@ -3,7 +3,7 @@ def parse_query(args):
     # IF artist and album
     if args.artist and args.album:
         s_artist_album_sql = '''
-            SELECT ar.name, al.name, al.year, al.rating, t.name, t.track_score FROM track t
+            SELECT ar.name, al.name, al.year, al.rating, al.star_rating, t.name, t.track_score FROM track t
             INNER JOIN album al ON al.id = t.album_id 
             INNER JOIN artist ar ON ar.id = al.artist_id
             WHERE ar.name = "?" AND al.name = "?"
@@ -14,7 +14,7 @@ def parse_query(args):
     # IF artist
     if args.artist:
         s_artist_sql = '''
-            SELECT ar.name, al.name, al.year, al.rating FROM album al
+            SELECT ar.name, al.name, al.year, al.rating, al.star_rating FROM album al
             INNER JOIN artist ar ON ar.id = al.artist_id
             WHERE ar.name = "?"
             ORDER BY al.year ASC;
@@ -24,7 +24,7 @@ def parse_query(args):
     # IF year
     if args.year:
         s_year_sql = '''
-            SELECT ar.name, al.name, al.year, al.rating FROM album al
+            SELECT ar.name, al.name, al.year, al.rating, al.star_rating FROM album al
             INNER JOIN artist ar ON ar.id = al.artist_id
             WHERE al.year = ?
             ORDER BY al.rating DESC;
@@ -37,7 +37,7 @@ def parse_query(args):
         high = low + 9
 
         s_decade_sql = '''
-            SELECT ar.name, al.name, al.year, al.rating FROM album al
+            SELECT ar.name, al.name, al.year, al.rating, al.star_rating FROM album al
             INNER JOIN artist ar ON ar.id = al.artist_id
             WHERE al.year BETWEEN ? AND ?
             ORDER BY al.rating DESC;
@@ -45,4 +45,11 @@ def parse_query(args):
         
         return ["decade", s_decade_sql.replace("?", str(low), 1).replace("?", str(high), 1)]
 
+    if args.all_time:
+        s_all_time_sql = '''
+            SELECT ar.name, al.name, al.year, al.rating, al.star_rating FROM album al
+            INNER JOIN artist ar ON ar.id = al.artist_id
+            ORDER BY al.rating DESC;
+        '''
 
+        return["all_time", s_all_time_sql]

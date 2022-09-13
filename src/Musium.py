@@ -10,7 +10,7 @@ def main():
     mb = MusicBrainz()
     db = DbLayer()
 
-    if args.artist or args.album or args.year or args.decade:
+    if args.artist or args.album or args.year or args.decade or args.all_time:
         q = parse_query(args)
         if q is None:
             print("Incorrect query format")
@@ -56,12 +56,17 @@ def RateAlbum(r):
         total += track[2]
 
     score = floor(((total / len(r.track_list)*10) + .15) * 10)
+    star_rating = score / 20
 
     if score >= 100: score = 100
     r.rating = score
 
+    star_rating = round(star_rating * 2) / 2
+    r.star_rating = star_rating
+
     print("-------------------------------------------")
     print("Score: " + str(score))
+    print("Stars:" + str(star_rating))
     db = DbLayer()
     db.RateAlbum(r)
 
@@ -91,6 +96,7 @@ def term_args():
     parser.add_argument("-al", "--album", help="Album to be used in query")
     parser.add_argument("-y", "--year", help="Year to be used in query")
     parser.add_argument("-d", "--decade", help="Decade to be used in query")
+    parser.add_argument("-at", "--all_time", help="Returns your rated albums in DESC order", action='store_true')
 
     return parser.parse_args()
 

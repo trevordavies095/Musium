@@ -7,7 +7,7 @@ class DbLayer:
 
     def __init__(self):
         try:
-            self.conn = sqlite3.connect("Musium.db")
+            self.conn = sqlite3.connect("Musium-Backup.db")
             c = self.conn.cursor()
 
             c_album_table_sql = '''
@@ -105,11 +105,11 @@ class DbLayer:
         # If not add to db
         if album_id is None:
             i_album_sql = '''
-                INSERT INTO album(artist_id, name, year, rating, musicbrainz_id)
-                VALUES (?, ?, ?, ?, ?);
+                INSERT INTO album(artist_id, name, year, rating, musicbrainz_id, star_rating)
+                VALUES (?, ?, ?, ?, ?, ?);
             '''
 
-            c.execute(i_album_sql, (artist_id, r.album, r.year, r.rating, r.musicbrainz_release_id))
+            c.execute(i_album_sql, (artist_id, r.album, r.year, r.rating, r.musicbrainz_release_id, r.star_rating))
             self.conn.commit()
             album_id = c.lastrowid
 
@@ -117,10 +117,10 @@ class DbLayer:
             album_id = album_id[0]
             u_album_sql = '''
                 UPDATE album
-                SET rating = ?
+                SET rating = ?, star_rating = ?
                 WHERE id = ?;
             '''
-            c.execute(u_album_sql, (r.rating, album_id,))
+            c.execute(u_album_sql, (r.rating, r.star_rating, album_id,))
 
         for track in r.track_list:
             # Check to see if track exists

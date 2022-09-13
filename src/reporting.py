@@ -2,7 +2,7 @@ from prettytable import PrettyTable
 
 def output_report(r):
     artist_album_heading = ["Track", "Rating"]
-    generic_heading = ["Artist", "Album", "Year", "Rating"]
+    generic_heading = ["Artist", "Album", "Year", "Rating", "Stars"]
 
     report_type = r[0]
     report = r[1]
