@@ -14,7 +14,8 @@ $\lfloor \left (\left (\frac{Sum of track ratings}{Total Number of Tracks} \cdot
 
 ## Commands
 Example of rating an album:
-```$ python3 musium.py
+```
+$ python3 musium.py
 Artist > Simon & Garfunkel
 Album > Bookends
 Year > 1968
