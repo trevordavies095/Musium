@@ -2,11 +2,6 @@
 
 Musium is an attempt to track album scores based on your track ratings.
 
-## Setup
-```console
-pip install -r requirements.txt
-```
-
 ## The Forumla
 
 $\lfloor \left (\left (\frac{Sum of track ratings}{Total Number of Tracks} \cdot 10  \right ) + .15  \right ) \cdot 10 \rfloor$
@@ -16,6 +11,11 @@ $\lfloor \left (\left (\frac{Sum of track ratings}{Total Number of Tracks} \cdot
 * .75 - A good track from the album, you like this track.
 * .5  - A track that you would only listen to when listening to the album, you may consider this track "filler"
 * 0 - A track you would never want to listen to again.
+
+## Setup
+```console
+pip install -r requirements.txt
+```
 
 ## Commands
 Example of rating an album:
