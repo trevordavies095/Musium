@@ -51,7 +51,8 @@ B4. A Hazy Shade of Winter score: .75
 B5. At the Zoo score: 1
 -------------------------------------------
 Score: 84
-Stars: 4.0```
+Stars: 4.0
+```
 
 ### Basic album search and rating
 ```console
