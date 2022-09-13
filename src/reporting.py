@@ -11,7 +11,7 @@ def output_report(r):
         print(report[0][0] + " - " + report[0][1] + " (" + str(report[0][2]) + ")")
         output_table = PrettyTable(artist_album_heading)
         for row in report:
-            output_table.add_row([row[4], row[5]])
+            output_table.add_row([row[5], row[6]])
     else:
         output_table = PrettyTable(generic_heading)
         output_table.add_rows(report)

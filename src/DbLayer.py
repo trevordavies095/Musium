@@ -7,7 +7,7 @@ class DbLayer:
 
     def __init__(self):
         try:
-            self.conn = sqlite3.connect("Musium-Backup.db")
+            self.conn = sqlite3.connect("Musium.db")
             c = self.conn.cursor()
 
             c_album_table_sql = '''
