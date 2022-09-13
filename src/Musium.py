@@ -1,7 +1,7 @@
-from DbLayer import DbLayer
+from db_layer import DbLayer
 from math import floor
-from MusicBrainz import MusicBrainz
-from queryparse import parse_query
+from music_brainz import MusicBrainz
+from query_parse import parse_query
 from reporting import output_report
 import argparse
 
@@ -15,7 +15,7 @@ def main():
         if q is None:
             print("Incorrect query format")
             exit(1)
-        results = db.RunQuery(q[1])
+        results = db.run_query(q[1])
         output_report([q[0], results])
         exit(0)
 
@@ -27,28 +27,28 @@ def main():
         album = input("Album > ")
         year = input("Year > ")
 
-        r = db.Search(artist, album, year)
+        r = db.search(artist, album, year)
     
         if r is None:
             r = mb.Search(artist, album, year)
         else:
             print("Found album in DB!")
             r = mb.Search(artist, album, year, r[0])
-    correct = CheckDetails(r)
+    correct = check_details(r)
 
     if correct != "c":
         mb_id = input("Enter ID: ")
         r = mb.Search(artist, album, year, mb_id)
-        c = CheckDetails(r)
+        c = check_details(r)
         if r is None: exit
 
         if c != "c":
             exit
 
-    RateAlbum(r)
+    rate_album(r)
 
     
-def RateAlbum(r):
+def rate_album(r):
     #
     total = 0
     for track in r.track_list:
@@ -68,9 +68,9 @@ def RateAlbum(r):
     print("Score: " + str(score))
     print("Stars: " + str(star_rating))
     db = DbLayer()
-    db.RateAlbum(r)
+    db.rate_album(r)
 
-def CheckDetails(r):
+def check_details(r):
     print()
     print("Artist: " + r.artist)
     print("Album: " + r.album + " (" + str(r.year) + ")")

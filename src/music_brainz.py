@@ -1,5 +1,5 @@
 from datetime import datetime
-from ReleaseObj import ReleaseObj
+from release_obj import ReleaseObj
 import musicbrainzngs as mb
 
 class MusicBrainz:
@@ -38,12 +38,12 @@ class MusicBrainz:
             if r is None: return None
 
             
-        track_list = self.GetTrackList(mb_id)
+        track_list = self.get_track_list(mb_id)
         if track_list is None: return None
 
         return ReleaseObj(mb_id, artist, album, year, track_list)
 
-    def GetTrackList(self, mb_id):
+    def get_track_list(self, mb_id):
         track_list = []
         r = mb.get_release_by_id(id=mb_id, includes=["recordings"])
         tl = (r["release"]["medium-list"][0]["track-list"])
@@ -53,12 +53,4 @@ class MusicBrainz:
             track_list.append([line["number"], line["recording"]["title"], -1])
         
         return track_list
-
-
-
-    def test(self):
-        # Returns dict with 'recording-list' key
-        r = mb.search_release_groups("Radiohead The King of Limbs 2011")["release-group-list"]
-        ids = [val['id'] for val in r]
-        print(ids)
 

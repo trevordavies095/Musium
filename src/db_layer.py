@@ -2,6 +2,7 @@ import sqlite3
 
 
 class DbLayer:
+    
     conn = None
 
     def __init__(self):
@@ -53,7 +54,7 @@ class DbLayer:
             pass
 
     
-    def Search(self, artist, album, year):
+    def search(self, artist, album, year):
         c = self.conn.cursor()
 
         check_album_sql = '''
@@ -66,12 +67,12 @@ class DbLayer:
 
         return mb_id
 
-    def RunQuery(self, q):
+    def run_query(self, q):
         c = self.conn.cursor()
         c.execute(q)
         return c.fetchall()
 
-    def RateAlbum(self, r):
+    def rate_album(self, r):
         c = self.conn.cursor()
 
         # Check to see if artist exists
