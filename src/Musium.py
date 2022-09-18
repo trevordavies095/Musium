@@ -4,11 +4,13 @@ from music_brainz import MusicBrainz
 from query_parse import parse_query
 from reporting import output_report
 import argparse
+import yaml
 
 def main():
+    config = load_config()
     args = term_args()
     mb = MusicBrainz()
-    db = DbLayer()
+    db = DbLayer(config)
 
     if args.artist or args.album or args.year or args.decade or args.all_time:
         q = parse_query(args)
@@ -45,17 +47,16 @@ def main():
         if c != "c":
             exit
 
-    rate_album(r)
+    rate_album(config, r)
 
     
-def rate_album(r):
-    #
+def rate_album(config, r):
     total = 0
     for track in r.track_list:
         track[2] = float(input(track[0] + ". " + track[1] + " score: "))
         total += track[2]
 
-    score = floor(((total / len(r.track_list)*10) + .15) * 10)
+    score = floor(((total / len(r.track_list)*10) + config["bonus"]) * 10)
     star_rating = score / 20
 
     if score >= 100: score = 100
@@ -67,7 +68,7 @@ def rate_album(r):
     print("-------------------------------------------")
     print("Score: " + str(score))
     print("Stars: " + str(star_rating))
-    db = DbLayer()
+    db = DbLayer(config)
     db.rate_album(r)
 
 def check_details(r):
@@ -99,6 +100,18 @@ def term_args():
     parser.add_argument("-at", "--all_time", help="Returns your rated albums in DESC order", action='store_true')
 
     return parser.parse_args()
+
+
+def load_config():
+        try:
+            stream = open("config.yaml", "r")
+            config = yaml.load(stream)
+
+        except FileNotFoundError:
+            print("Missing config.yaml!")
+            exit(1)
+
+        return config
 
 
 if __name__ == "__main__":

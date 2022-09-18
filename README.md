@@ -17,6 +17,10 @@ $\lfloor \left (\left (\frac{Sum of track ratings}{Total Number of Tracks} \cdot
 pip install -r requirements.txt
 ```
 
+## Config
+* dbpath (Required) - The directory your Musium.db is stored. If one doesn't exist in this path it will be created.
+* bonus (Required) - Extra points added to an album with the logic that if every track on an album was a track you liked, it would be ~80. Default is .5, I have my changed to .15
+
 ## Commands
 Example of rating an album:
 ```console
