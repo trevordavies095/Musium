@@ -12,8 +12,11 @@ def output_report(r):
         output_table = PrettyTable(artist_album_heading)
         for row in report:
             output_table.add_row([row[5], row[6]])
+        print(output_table)
+        print("Rating: {}, {} stars".format(report[0][3], report[0][4]))
     else:
         output_table = PrettyTable(generic_heading)
         output_table.add_rows(report)
+        print(output_table)
 
-    print(output_table)
+    
