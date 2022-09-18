@@ -45,12 +45,15 @@ class MusicBrainz:
 
     def get_track_list(self, mb_id):
         track_list = []
-        r = mb.get_release_by_id(id=mb_id, includes=["recordings"])
-        tl = (r["release"]["medium-list"][0]["track-list"])
+        r = mb.get_release_by_id(id=mb_id, includes=["recordings"])["release"]["medium-list"]
 
-        for x in range(len(tl)):
-            line = (tl[x])
-            track_list.append([line["number"], line["recording"]["title"], -1])
+        # Looping in case this is a double album
+        for medium in r:
+            tl = medium["track-list"]
+
+            for x in range(len(tl)):
+                line = (tl[x])
+                track_list.append([line["number"], line["recording"]["title"], -1])
         
         return track_list
 
