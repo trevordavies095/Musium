@@ -6,7 +6,7 @@ This is the article that inspired me to create this: https://isthishowyoupop.com
 
 ## The Forumla
 
-$\lfloor \left (\left (\frac{Sum of track ratings}{Total Number of Tracks} \cdot 10  \right ) + .15  \right ) \cdot 10 \rfloor$
+$\lfloor \left (\left (\frac{Sum of track ratings}{Total Number of Tracks} \cdot 10  \right ) + Album Bonus  \right ) \cdot 10 \rfloor$
 
 ### Track Ratings
 * 1   - A track that comes to mind when you think of the album, you love this track.
