@@ -2,6 +2,8 @@
 
 Musium is an attempt to track album scores based on your track ratings.
 
+This is the article that inspired me to create this: https://isthishowyoupop.com/album-scores-and-how-they-work/
+
 ## The Forumla
 
 $\lfloor \left (\left (\frac{Sum of track ratings}{Total Number of Tracks} \cdot 10  \right ) + .15  \right ) \cdot 10 \rfloor$
