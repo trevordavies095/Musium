@@ -82,4 +82,6 @@ python3 musium.py -ar "Simon & Garfunkel" -al "Bridge Over Troubled Water"
 python3 musium.py -y 2022
 python3 musium.py -d 2010s
 python3 musium.py -at
+python3 musium.py -ta 3
+python3 musium.py -ta 
 ```
