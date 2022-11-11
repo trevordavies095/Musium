@@ -11,35 +11,50 @@ def main():
     mb = MusicBrainz()
     db = DbLayer(config)
 
+    # Check to see if we are doing a report
     if args.artist or args.album or args.year or args.decade or args.all_time:
+        
+        #q[0] - is the type of report
+        #q[1] - is the query to run to get the report
         q = parse_query(args)
         if q is None:
             print("Incorrect query format")
             exit(1)
+        
         results = db.run_query(q[1])
-        output_report([q[0], results])
+        score = 0
+        for r in results:
+            score += r[3]
+        score /= len(results)
+        output_report([q[0], results, score])
         exit(0)
 
+    # Check to see if musicbrainz ID was passed in
     if args.mb_id:
         r = mb.Search(artist=None, album=None, year=None, mb_id=args.mb_id)
 
+    # Manual search
     else:
         artist = input("Artist > ")
         album = input("Album > ")
         year = input("Year > ")
 
+        # Check to see if release already in DB
         r = db.search(artist, album, year)
     
+        # If not found in DB, search MB for it
         if r is None:
             r = mb.Search(artist, album, year)
         else:
             print("Found album in DB!")
             r = mb.Search(artist, album, year, r[0])
+    
+    # Verify the search results are correct 
     correct = check_details(r)
-
     if args.mb_id and correct != "c":
         exit(0)        
 
+    # If the results are incorrect, prompt the user for the correct Musicbrainz ID
     if correct != "c":
         mb_id = input("Enter ID: ")
         r = mb.Search(artist, album, year, mb_id)
@@ -47,12 +62,13 @@ def main():
         if r is None: exit
 
         if c != "c":
-            exit
+            exit(0)
 
     rate_album(config, r)
 
     
 def rate_album(config, r):
+    
     total = 0
     for track in r.track_list:
         track[2] = float(input(track[0] + ". " + track[1] + " score: "))
@@ -121,7 +137,7 @@ def parse_query(args):
     # IF artist and album
     if args.artist and args.album:
         s_artist_album_sql = '''
-            SELECT ar.name, al.name, al.year, al.rating, al.star_rating, t.name, t.track_score FROM track t
+            SELECT ar.name, al.name, al.year, al.rating, al.star_rating, t.name, t.track_score, al.musicbrainz_id FROM track t
             INNER JOIN album al ON al.id = t.album_id 
             INNER JOIN artist ar ON ar.id = al.artist_id
             WHERE ar.name = "{}" COLLATE NOCASE
@@ -183,11 +199,18 @@ def output_report(r):
 
     if report_type == "artist_album": 
         print(report[0][0] + " - " + report[0][1] + " (" + str(report[0][2]) + ")")
+        print("MusicBrainz ID: {}".format(str(report[0][7])))
         output_table = PrettyTable(artist_album_heading)
         for row in report:
             output_table.add_row([row[5], row[6]])
         print(output_table)
+
         print("Rating: {}, {} stars".format(report[0][3], report[0][4]))
+    elif report_type == "artist":
+        print("Average Artist Rating: " + str(round(r[2], 1)))
+        output_table = PrettyTable(generic_heading)
+        output_table.add_rows(report)
+        print(output_table)
     else:
         output_table = PrettyTable(generic_heading)
         output_table.add_rows(report)
