@@ -201,7 +201,7 @@ def parse_query(args, min):
             SELECT ar.name, round(avg(al.rating), 2) FROM album al
             INNER JOIN artist ar ON ar.id = al.artist_id
             GROUP BY ar.name
-            HAVING COUNT(*) > {}
+            HAVING COUNT(*) >= {}
             ORDER BY avg(al.rating) DESC;
         '''.format(str(min))
 
