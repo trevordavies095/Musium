@@ -66,6 +66,18 @@ class DbLayer:
         mb_id = c.fetchone()
 
         return mb_id
+    
+    def search_mb(self, mb_id):
+        c = self.conn.cursor()
+
+        check_mb_id_sql = '''
+            SELECT musicbrainz_id FROM album WHERE musicbrainz_id = ?;
+        '''
+        c.execute(check_mb_id_sql, (mb_id,))
+        exists = c.fetchone()
+
+        return exists
+
 
     def run_query(self, q):
         c = self.conn.cursor()

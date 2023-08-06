@@ -42,6 +42,12 @@ def main():
 
     # Check to see if musicbrainz ID was passed in
     if args.mb_id:
+        r = db.search_mb(mb_id=args.mb_id)
+
+        # If not found in DB, grab from MB
+        if r is not None:
+            print("Found album in DB!")
+
         r = mb.Search(artist=None, album=None, year=None, mb_id=args.mb_id)
 
     # Manual search
