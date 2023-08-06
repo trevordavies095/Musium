@@ -40,6 +40,11 @@ def main():
                 print("Not found!")
             exit(0)
 
+    # Check to see if exporting csv
+    if args.export_csv:
+        db.export_csv()
+        exit(0)
+
     # Check to see if musicbrainz ID was passed in
     if args.mb_id:
         r = db.search_mb(mb_id=args.mb_id)
@@ -134,6 +139,7 @@ def term_args():
     parser.add_argument("-d", "--decade", help="Decade to be used in query")
     parser.add_argument("-at", "--all_time", help="Returns your rated albums in DESC order", action='store_true')
     parser.add_argument("-ta", "--top_artists", help="Top artist based on average album score", type=int, nargs='?', const=5)
+    parser.add_argument("-ex", "--export_csv", help="Export Musium.db to a CSV file", action='store_true')
 
     return parser.parse_args()
 

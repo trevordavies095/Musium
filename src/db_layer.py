@@ -1,4 +1,6 @@
+import csv
 import sqlite3
+import time
 
 
 class DbLayer:
@@ -52,6 +54,38 @@ class DbLayer:
 
         except Exception as e:
             pass
+
+
+    def export_csv(self):
+        c = self.conn.cursor()
+
+        export_csv_sql = """
+            SELECT 
+                ar.name AS 'Arist',
+                al.name AS 'Album',
+                t.name AS 'Track',
+                t.track_score AS 'Track Score',
+                al.year AS 'Year',
+                al.rating  AS 'Album Rating',
+                al.star_rating AS 'Album Star Rating',
+                al.musicbrainz_id AS 'MusicBrainz ID'
+            FROM track t
+            INNER JOIN album al ON al.id = t.album_id
+            INNER JOIN artist ar ON ar.id = al.artist_id
+            ORDER BY ar.name, al.year, t.id ASC;
+        """
+        c.execute(export_csv_sql)
+        r = c.fetchall()
+
+        filename = 'musium_backup' + time.strftime('%Y%m%d%H%M%S') + '.csv'
+        with open(filename, 'w') as out_csv_file:
+            csv_out = csv.writer(out_csv_file)
+            csv_out.writerow([d[0] for d in c.description])
+            for line in r:
+                csv_out.writerow(line)
+
+
+    
 
     
     def search(self, artist, album, year):
