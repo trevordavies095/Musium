@@ -1,9 +1,11 @@
+import argparse
+import logging
+import yaml
 from db_layer import DbLayer
 from math import floor
 from music_brainz import MusicBrainz
 from prettytable import PrettyTable
-import argparse
-import yaml
+
 
 def main():
     config = load_config()
@@ -27,13 +29,16 @@ def main():
         if args.artist:
             for r in results:
                 score += r[3]
-            score /= len(results)
+            if len(results) > 0:
+                score /= len(results)
         
-        if args.top_artists:
-            output_report([q[0], results, args.top_artists])
-        else:
-            output_report([q[0], results, score])
-        exit(0)
+                if args.top_artists:
+                    output_report([q[0], results, args.top_artists])
+                else:
+                    output_report([q[0], results, score])
+            else:
+                print("Not found!")
+            exit(0)
 
     # Check to see if musicbrainz ID was passed in
     if args.mb_id:
@@ -130,7 +135,7 @@ def term_args():
 def load_config():
         try:
             stream = open("config.yaml", "r")
-            config = yaml.load(stream)
+            config = yaml.safe_load(stream)
 
         except FileNotFoundError:
             print("Missing config.yaml!")
