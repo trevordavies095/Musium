@@ -31,14 +31,15 @@ def main():
                 score += r[3]
             if len(results) > 0:
                 score /= len(results)
-        
-                if args.top_artists:
-                    output_report([q[0], results, args.top_artists])
-                else:
-                    output_report([q[0], results, score])
             else:
                 print("Not found!")
-            exit(0)
+        
+        if args.top_artists:
+            output_report([q[0], results, args.top_artists])
+        else:
+            output_report([q[0], results, score])
+            
+        exit(0)
 
     # Check to see if exporting csv
     if args.export_csv:
